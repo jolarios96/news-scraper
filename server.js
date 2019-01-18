@@ -1,17 +1,24 @@
-var express = require("express");
-var mongoose = require("mongoose");
+const express = require("express");
+const exphbs = require("express-handlebars")
+const mongoose = require("mongoose");
+const bodyParser = require('body-parser')
 
 // Our scraping tools
 // maybe axios
-var cheerio = require("cheerio");
+const request = require('request');
+const cheerio = require("cheerio");
 
 // Require all models
-var db = require("./models/");
+const db = require("./models/");
 
-var PORT = 3000;
+const PORT = 3000;
 
 // Initialize Express
-var app = express();
+const app = express();
+
+// Handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Configure middleware
 
