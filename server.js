@@ -20,25 +20,30 @@ const app = express();
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// Configure middleware
-
+// Configure middleware===========================================================
 // Parse request body as JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 // Make public a static folder
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/articleDB", { useNewUrlParser: true });
 
-// Routes
+// Routes =========================================================================
 // route to index
 app.get("/", function (req, res) {
     res.render("index", {
         msg: "Welcome",
     });
 });
-
+// 404 route (On unkown route)
+app.get("*", function (req, res) {
+    res.render("404");
+});
 
 // A GET route for scraping articles
 app.get("/scrape", function (req, res) {
@@ -54,7 +59,7 @@ app.get("/articles", function (req, res) {
 
 // Route for grabbing a specific Article by id
 app.get("/articles/:id", function (req, res) {
-// req.params.id
+    // req.params.id
 });
 
 // Start the server
