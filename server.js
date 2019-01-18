@@ -1,44 +1,56 @@
 var express = require("express");
-var logger = require("mongoose");
+var mongoose = require("mongoose");
 
-// scraping tools
-// axios maybe
-var cheerio = require("cheerio")
+// Our scraping tools
+// maybe axios
+var cheerio = require("cheerio");
 
-// require models
-var db = require("./models")
+// Require all models
+var db = require("./models/");
 
 var PORT = 3000;
 
-// init. Express
+// Initialize Express
 var app = express();
 
-// configure middleware
+// Configure middleware
 
-// Parse requet body as JSON
+// Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// make public a static folder
+// Make public a static folder
 app.use(express.static("public"));
 
-// Connect to Mongo DB
+// Connect to the Mongo DB
+mongoose.connect("mongodb://localhost/articleDB", { useNewUrlParser: true });
 
-// Routes ==================================================
-
-// GET route to scrape website------------------------------
-app.get("/scrape", function (req, res) {
-
-
-    res.send("Scrap Complete");
+// Routes
+// route to index
+app.get("/", function (req, res) {
+    res.render("index", {
+        msg: "Welcome",
+    });
 });
 
-// GET route, get Articles from the db
+
+// A GET route for scraping articles
+app.get("/scrape", function (req, res) {
+
+    // Send a message to the client
+    res.send("Scrape Complete");
+});
+
+// Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
 
 });
 
-// Server start ============================================
+// Route for grabbing a specific Article by id
+app.get("/articles/:id", function (req, res) {
+// req.params.id
+});
+
+// Start the server
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
