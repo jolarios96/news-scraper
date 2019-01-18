@@ -1,0 +1,22 @@
+{
+  "name": "news-scraper",
+  "version": "1.0.0",
+  "description": "An app made to scrape from news sources, and allow the user to leave a heroku-server saved note on each article.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jolarios96/news-scraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jolarios96/news-scraper/issues"
+  },
+  "homepage": "https://github.com/jolarios96/news-scraper#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
