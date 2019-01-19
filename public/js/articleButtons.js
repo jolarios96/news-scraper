@@ -3,5 +3,12 @@ $("#article-wrapper").on("click", ".save-btn", function () {
 });
 
 $("#article-wrapper").on("click", ".delete-btn", function () {
-    console.log($(this).parent().data("id"));
+    const selected = $(this).parent();
+    console.log(selected);
+    $(this).parents(".card").remove();
+
+    $.ajax({
+        type: "DELETE",
+        url: "/delete/" + selected.data("id"),
+    });
 });
