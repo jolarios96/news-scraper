@@ -26,7 +26,50 @@
 </head>
 
 <body>
+  {{!-- Navbar --}}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="/">Home</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+    </div>
+
+    </div>
+  </nav>
+
+  {{!-- jumbotron --}}
+  <div class="jumbotron text-center">
+    <h2>Homepage</h2>
+    <br>
+    <br>
+    {{!-- Button Group Nav --}}
+    <div class="btn-group btn-group-lg" role="group">
+      <a href="scrape" class="btn btn-primary w-100 mx-1">Scrape Articles!</a>
+      {{!-- <a href="#" class="btn btn-primary w-100 mx-1">Middle</a> --}}
+      <a href="#" class="btn btn-primary w-100 mx-1">Go to Favorites</a>
+    </div>
+  </div>
+
+
+
   {{{body}}}
+
+  <script type="text/javascript" src="/js/articleButtons.js"></script>
 </body>
 
 </html>

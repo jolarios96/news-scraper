@@ -1,0 +1,29 @@
+{{!-- <li>
+    <h2>{{name}} Burger</h2>
+    <br>
+    <button class="change-state" data-id="{{id}}" data-name="{{name}}" data-newState="{{ate}}">
+        {{#if ate}}EAT IT!{{else}}Reorder!{{/if}}
+    </button>
+
+    <button class="delete-burger" data-id="{{this.id}}" data-name="{{name}}">
+        {{#if ate}}Return it!{{else}}Digest it!{{/if}}
+    </button>
+</li> --}}
+<div class="card mt-3">
+    <div class="card-header">
+        <div class="btn-wrapper float-right" data-id={{_id}}>
+            <button class="btn btn-success save-btn">Save</button>
+            <button class="btn btn-danger delete-btn">Delete</button>
+        </div>
+        <div class="w-75">
+            <a class="article-header" href={{link}}>
+                <h3>{{title}}</h3>
+            </a>
+        </div>
+
+
+    </div>
+    <div class="card-body">
+        <p>{{description}}</p>
+    </div>
+</div>

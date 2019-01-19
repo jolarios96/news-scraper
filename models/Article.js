@@ -10,6 +10,13 @@ var ArticleSchema = new Schema({
   link: {
     type: String,
     required: true
+  },
+  description: {
+    type: String
+  },
+  saved: {
+    type: Boolean,
+    default: false
   }
   // },
   // note: {

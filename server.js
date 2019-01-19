@@ -36,27 +36,49 @@ mongoose.connect("mongodb://localhost/articleDB", { useNewUrlParser: true });
 // Routes =========================================================================
 // route to index
 app.get("/", function (req, res) {
-    res.render("index", {
-        msg: "Welcome",
-    });
+
+    db.Article.find({})
+        .then(function (data) {
+            // send found articles to client
+            // res.json(data);
+            console.log(data)
+            var hbsObject = {
+                articles: data
+            };
+
+            // res.render("index", hbsObject, {
+            res.render("index", hbsObject);
+        })
+        .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
 });
 
+
+// https://arstechnica.com/gaming/
+// https://arstechnica.com/gadgets/
+// https://echojs.com
 app.get("/scrape", function (req, res) {
-    request("#", function (error, response, body) {
+    request("https://arstechnica.com/gadgets/", function (error, response, body) {
         var $ = cheerio.load(body);
 
         // Now, we grab every h2 within an article tag, and do the following:
-        $("article h2").each(function (i, element) {
+        $("li").each(function (i, element) {
             // Save an empty result object
             var result = {};
 
             // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this)
-                .children("a")
+                .find("h2")
                 .text();
+            // result.link = $(this)
             result.link = $(this)
                 .children("a")
                 .attr("href");
+            result.description = $(this)
+                .find("p.excerpt")
+                .text();
 
             // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
@@ -69,9 +91,11 @@ app.get("/scrape", function (req, res) {
                     console.log(err);
                 });
         });
-        console.log("Scrape compleete");
-        res.send("Scrape Complete");
+        res.redirect("/");
+
+        // res.send("Scrape Complete");
         // res.send(response.body);
+        // res.render("index");
     });
 });
 
