@@ -3,8 +3,7 @@ const exphbs = require("express-handlebars")
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser')
 
-// Our scraping tools
-// maybe axios
+// Scraping tools
 const request = require('request');
 const cheerio = require("cheerio");
 
@@ -39,18 +38,14 @@ app.get("/", function (req, res) {
 
     db.Article.find({})
         .then(function (data) {
-            // send found articles to client
-            // res.json(data);
             console.log(data)
             var hbsObject = {
                 articles: data
             };
 
-            // res.render("index", hbsObject, {
             res.render("index", hbsObject);
         })
         .catch(function (err) {
-            // If an error occurred, send it to the client
             res.json(err);
         });
 });
@@ -61,18 +56,14 @@ app.get("/", function (req, res) {
 // https://echojs.com
 app.get("/scrape", function (req, res) {
     request("https://arstechnica.com/gadgets/", function (error, response, body) {
-        var $ = cheerio.load(body);
+        const $ = cheerio.load(body);
 
-        // Now, we grab every h2 within an article tag, and do the following:
         $("li").each(function (i, element) {
-            // Save an empty result object
-            var result = {};
+            let result = {};
 
-            // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this)
                 .find("h2")
                 .text();
-            // result.link = $(this)
             result.link = $(this)
                 .children("a")
                 .attr("href");
@@ -80,33 +71,63 @@ app.get("/scrape", function (req, res) {
                 .find("p.excerpt")
                 .text();
 
-            // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
                 .then(function (dbArticle) {
-                    // View the added result in the console
                     console.log(dbArticle);
                 })
                 .catch(function (err) {
-                    // If an error occurred, log it
                     console.log(err);
                 });
         });
         res.redirect("/");
-
-        // res.send("Scrape Complete");
-        // res.send(response.body);
-        // res.render("index");
     });
 });
 
-// Route for getting all Articles from the db
+// show articles in json response
 app.get("/articles", function (req, res) {
-
+    db.Article.find({})
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
 });
 
 // Route for grabbing a specific Article by id
 app.get("/articles/:id", function (req, res) {
-    // req.params.id
+    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    db.Article
+        .findOne({ _id: req.params.id })
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
+
+// Route for updating a specific article save status
+app.put("/save/:id", function (req, res) {
+    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    db.Article
+        .findOne({ _id: req.params.id })
+        .update({ $set: { "saved": true } })
+        .then(render("index"))
+        .catch(function (err) {
+            res.json(err);
+        });
+});
+
+// Route for deleting a specific article
+app.delete("/delete/:id", function (req, res) {
+    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    db.Article
+        .remove({ _id: req.params.id })
+        .then(render("index"))
+        .catch(function (err) {
+            res.json(err);
+        });
 });
 
 // Start the server
