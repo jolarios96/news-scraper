@@ -29,8 +29,10 @@ app.use(bodyParser.json());
 // Make public a static folder
 app.use(express.static("public"));
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/articleDB", { useNewUrlParser: true });
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 // Routes =========================================================================
 // route to index
