@@ -50,6 +50,23 @@ app.get("/", function (req, res) {
         });
 });
 
+// route to saved
+app.get("/saved", function (req, res) {
+
+    db.Article.find({})
+        .then(function (data) {
+            console.log(data)
+            var hbsObject = {
+                articles: data
+            };
+
+            res.render("saved", hbsObject);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
+
 
 // https://arstechnica.com/gaming/
 // https://arstechnica.com/gadgets/
@@ -96,7 +113,8 @@ app.get("/articles", function (req, res) {
 });
 
 // Route for grabbing a specific Article by id
-app.get("/article/:id", function (req, res) {
+// NO BUTTON
+app.get("/find/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article
         .findOne({ _id: req.params.id })
@@ -109,12 +127,11 @@ app.get("/article/:id", function (req, res) {
 });
 
 // Route for updating a specific article save status
-app.put("update/:id", function (req, res) {
+app.put("/update/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article
         .findOne({ _id: req.params.id })
         .update({ $set: { "saved": true } })
-        .then(render("index"))
         .catch(function (err) {
             res.json(err);
         });

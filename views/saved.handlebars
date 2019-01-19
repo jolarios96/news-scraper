@@ -1,0 +1,16 @@
+{{!-- jumbotron --}}
+<div class="jumbotron text-center py-5">
+  <h2>Your Saved Articles</h2>
+  <br>
+  <br>
+  {{!-- Button Group Nav --}}
+    <a href="/" class="btn btn-primary btn-lg mx-1">Return to Homepage</a>
+</div>
+
+<div id="article-wrapper">
+  {{#each articles}}
+  {{#if saved}}
+  {{> articles/article-block}}
+  {{/if}}
+  {{/each}}
+</div>

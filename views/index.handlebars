@@ -1,5 +1,19 @@
+{{!-- jumbotron --}}
+<div class="jumbotron text-center py-5">
+  <h2>Let's Scrape Some Articles!</h2>
+  <br>
+  <br>
+  {{!-- Button Group Nav --}}
+  <div class="btn-group btn-group-lg" role="group">
+    <a href="scrape" class="btn btn-primary w-100 mx-1">Scrape Articles!</a>
+    <a href="saved" class="btn btn-primary w-100 mx-1">Go to Saved</a>
+  </div>
+</div>
+
 <div id="article-wrapper">
   {{#each articles}}
+  {{#unless saved}}
   {{> articles/article-block}}
+  {{/unless}}
   {{/each}}
 </div>
