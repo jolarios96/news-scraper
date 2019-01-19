@@ -71,7 +71,8 @@ app.get("/scrape", function (req, res) {
                 .find("p.excerpt")
                 .text();
 
-            db.Article.create(result)
+            db.Article
+                .create(result)
                 .then(function (dbArticle) {
                     console.log(dbArticle);
                 })
@@ -83,7 +84,7 @@ app.get("/scrape", function (req, res) {
     });
 });
 
-// show articles in json response
+// show ALL articles in json response
 app.get("/articles", function (req, res) {
     db.Article.find({})
         .then(function (dbArticle) {
@@ -95,7 +96,7 @@ app.get("/articles", function (req, res) {
 });
 
 // Route for grabbing a specific Article by id
-app.get("/articles/:id", function (req, res) {
+app.get("/article/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article
         .findOne({ _id: req.params.id })
@@ -108,7 +109,7 @@ app.get("/articles/:id", function (req, res) {
 });
 
 // Route for updating a specific article save status
-app.put("/save/:id", function (req, res) {
+app.put("update/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article
         .findOne({ _id: req.params.id })
@@ -124,7 +125,7 @@ app.delete("/delete/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article
         .remove({ _id: req.params.id })
-        .then(render("index"))
+        .then(res.render("index"))
         .catch(function (err) {
             res.json(err);
         });
